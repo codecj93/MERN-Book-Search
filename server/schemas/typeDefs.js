@@ -3,30 +3,44 @@ const typeDefs = `
     _id: ID!
     username: String!
     email: String!
-    password: String!
+    bookCount: Int
     savedBooks: [Book]
   }
 
   type Book {
-    _id: ID!
+    bookId: ID!
     authors: [String]
     description: String!
-    bookId: String!
+    image: String
+    link: String
+    title: String!
+  }
+
+  type Auth {
+    token: String!  # Changed from ID to String if token is a JWT or similar
+    user: User
+  }
+
+  input BookInput {
+    bookId: ID!
+    authors: [String]
+    description: String!
     image: String
     link: String
     title: String!
   }
 
   type Query {
-    user(username: String!): User
+    me: User
   }
 
   type Mutation {
-    createUser(username: String!, email: String!, password: String!): User
+    createUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    saveBook(input: BookInput): User
-    deleteBook(bookId: String!): User
+    saveBook(input: BookInput!): User
+    deleteBook(bookId: ID!): User
   }
 `;
 
 module.exports = typeDefs;
+
